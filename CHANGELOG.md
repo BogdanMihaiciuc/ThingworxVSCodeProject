@@ -1,3 +1,9 @@
+# 19 Jan 2025
+
+Resolves an issue where using the `bindProperty` function to specify both a static value and a binding for a widget property caused an error to be thrown when building.
+
+Resolves an issue where bindings from core ui controller infotable parameters did not work.
+
 # 4 Aug 2024
 
 Resolves an issue where bindings to and from mashup parameters did not work.
