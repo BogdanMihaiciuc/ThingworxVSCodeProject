@@ -12,7 +12,7 @@ const QueryImplementingThings = defineService(ThingTemplates.GenericThing.QueryI
 
 /**
  * Dynamic services can be defined with a different `defineDynamicService` function. Specifically for thing templates
- * and thing shapes, their dynamic services can be obtained through a `dyanmicEntity` service
+ * and thing shapes, their dynamic services can be obtained through a `dynamicEntity` service
  */
 const ExampleProperty = defineDynamicService(dynamicEntity(ThingTemplates.ExampleThingTemplate).GetExampleProperty);
 
