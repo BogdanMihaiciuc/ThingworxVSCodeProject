@@ -1,3 +1,7 @@
+# 8 Mar 2025
+
+Resolves an issue where adding comments immediately after the closing brace of a service or subscription would cause invalid code to be generated for Thingworx.
+
 # 19 Jan 2025
 
 Resolves an issue where using the `bindProperty` function to specify both a static value and a binding for a widget property caused an error to be thrown when building.
