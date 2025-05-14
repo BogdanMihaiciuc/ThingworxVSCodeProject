@@ -1,3 +1,11 @@
+# 14 May 2025
+
+Adds support for media entities using local files by creating a new `MediaEntityList` class.
+
+Adds support for uploading files to repositories and a new `repositoryPath` configuration in `twconfig.json` where the folder containing repository files is specified.
+
+Adds support for binding expressions for properties and events in core ui mashups.
+
 # 8 Mar 2025
 
 Resolves an issue where adding comments immediately after the closing brace of a service or subscription would cause invalid code to be generated for Thingworx.
