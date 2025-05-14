@@ -118,8 +118,12 @@ Deployment to Thingworx is part of the build process as explained above. Alterna
 
 For a complete changelog see [CHANGELOG.md](CHANGELOG.md).
 
-## 31 Mar 2024
+## 14 May 2025
+ - Support for binding expressions in Core UI mashups
+ - Support for media entities
+ - Support for repository files
 
+## 31 Mar 2024
  - Support for mashups, Core UI mashups and CSS
  - Support for style definitions
  - Support for state definitions
@@ -132,12 +136,6 @@ For a complete changelog see [CHANGELOG.md](CHANGELOG.md).
 ## 11 Dec 2022
 - Support for trace builds
 - Support for XML entities
-
-## 2 May 2022
-
-- Support for inline SQL
-- Support for generating `fieldDefinitions` exports
-- Support for the `override` keyword
 
 # Credit/Acknowledgment
 
