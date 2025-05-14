@@ -5,6 +5,7 @@
     "generateProjectEntity": true,
     "generateThingInstances": true,
     "globalFunctions": true,
+    "repositoryPath": "./files",
     "inlineSQL": {
         "enabled": true,
         "permissions": "system"
