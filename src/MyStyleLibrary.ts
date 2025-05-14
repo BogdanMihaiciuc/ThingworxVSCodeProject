@@ -12,7 +12,7 @@ class MyStyleLibrary extends StyleLibrary {
      * 
      * An optional `StyleDefinition` type annotation can be used to provide autocomplete suggestions.
      */
-    DefaultButtonStyle: StyleDefinition = {
+    MyDefaultButtonStyle: StyleDefinition = {
         backgroundColor: 'rgba(0, 128, 255, 1)',
         foregroundColor: '#FFFFFF',
         textSize: '14px'
