@@ -8,11 +8,13 @@
  * 
  * Additionally, it is also required to set the compilation target to ES6 or higher, since the Typescript Class
  * widget requires support for extending classes using typical ES6 syntax.
+ * `useDefineForClassFields` must also be explicitly set to false, otherwise the resulting class overrides
+ * the setters and getter for properties set up by the decorators.
  * 
  * This example imports the dom library via a triple slash directive.
  * 
  * NOTE: To get this example file to work, it is needed to change its extension to .tsx AND set the compilation target
- * to ES6 or newer.
+ * to ES6 or newer AND explicitly set `useDefineForClassFields` to false in tsconfig.json.
  */
 ///<reference lib="dom" />
 // Mashup files need an additional import for UI definitions. Core UI mashups import from a 
@@ -30,7 +32,7 @@ const QueryImplementingThings = defineService(ThingTemplates.GenericThing.QueryI
 
 /**
  * Dynamic services can be defined with a different `defineDynamicService` function. Specifically for thing templates
- * and thing shapes, their dynamic entity types can be obtained through a `dyanmicEntity` service
+ * and thing shapes, their dynamic entity types can be obtained through a `dynamicEntity` service
  */
 const ExampleProperty = defineDynamicService(dynamicEntity(ThingTemplates.ExampleThingTemplate).GetExampleProperty);
 
@@ -117,7 +119,7 @@ class MyCoreUIMashup extends MashupController {
      */
     @property(bind(QueryImplementingThings.AllData), didBind('dataDidBind')) data!: JSONInfoTable<EntityList>;
 
-    dataDidBind(prevousValue: JSONInfoTable<EntityList>, info: TWUpdatePropertyInfo) {
+    dataDidBind(previousValue: JSONInfoTable<EntityList>, info: TWUpdatePropertyInfo) {
         console.log(`Data property was updated!`);
     }
 
@@ -164,8 +166,42 @@ class MyCoreUIMashup extends MashupController {
                     justify-content="space-between"
                 >
                     <Ptcslabel LabelType="large-header" LabelText={ControllerInterface.titleLabel} CustomClass="MyLabel" />
-                    <Ptcsbutton ButtonType="primary" Label="Open Windowed" Clicked={[WindowView.bringToFront]} />
-                    <Ptcsbutton ButtonType="primary" Label="Refresh" Clicked={[QueryImplementingThings]} />
+                    {/*
+                        In a Core UI mashup, all bindable properties can use a binding expression function to
+                        change the bound value and potentially make use of multiple binding sources.
+                    */}
+                    <Ptcsbutton
+                        Label={() => {
+                            // Bindings are established via the `getBindingValue` function which can only be used from this context
+                            // The binding expression is executed whenever any binding value referenced via this function changes at runtime
+                            const things = getBindingValue(QueryImplementingThings.AllData);
+
+                            if (!things.length) {
+                                return `Refresh Data`;
+                            }
+                            else {
+                                // `$v` can be used as a shorter alias to getBindingValue
+                                return `Refresh ${$v(QueryImplementingThings.SelectedRows.name)}`;
+                            }
+                        }}
+                        ButtonType="primary"
+                        Clicked={[QueryImplementingThings]}
+                    />
+                    {/*
+                        Similarly, in a Core UI mashup, all events can also use a binding expression function to
+                        specify runtime code to execute in response to that event. It is specified in an array literal.
+                    */}
+                    <Ptcsbutton ButtonType="primary" Label="Open Windowed" Clicked={[() => {
+                        // Service bindings can be specified and executed via a `triggerBindingService` function
+                        // which can only be used from this context; binding values can also be used from here
+                        if (getBindingValue(WindowView.thingName)) {
+                            triggerBindingServices([WindowView.bringToFront]);
+
+                            // `$s` can be used as a short alias to `triggerBindingService`; multiple services can
+                            // be invoked from a single event expression
+                            $s([QueryImplementingThings]);
+                        }
+                    }]} />
                     <BMWindowController
                         ref={WindowView}
                         mashupName="MyMashup"
@@ -194,7 +230,7 @@ class MyCoreUIMashup extends MashupController {
                             Configuration={importJSON("./MyMashupGridConfiguration.json")}
                             Data={QueryImplementingThings.AllData}
                             AddButtonText={ItemsCollection['Event:avatar']}
-                            IsEditable={false}
+                            IsEditable={true}
                         />
                         <BMCollectionView
                             // When a ref is used for a collection view it imposes restriction on what can be bound
