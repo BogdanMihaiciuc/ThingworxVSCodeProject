@@ -1,3 +1,7 @@
+# 10 Nov 2026
+
+Fixes an issue where data export widgets and data export functions defined in typescript mashups did not work at runtime.
+
 # 14 May 2025
 
 Adds support for media entities using local files by creating a new `MediaEntityList` class.
